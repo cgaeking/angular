@@ -62,7 +62,7 @@ export class HashLocationStrategy extends LocationStrategy {
     this._platformLocation.onHashChange(fn);
   }
 
-  getBaseHref(): string { return this._baseHref + '#'; }
+  getBaseHref(): string { return this._baseHref; }
 
   path(includeHash: boolean = false): string {
     // the hash value is always prefixed with a `#`
@@ -74,11 +74,11 @@ export class HashLocationStrategy extends LocationStrategy {
   }
 
   prepareExternalUrl(internal: string): string {
-    if (internal.length === 0) {
-      return this._baseHref;
+    if (internal.length > 0) {
+      const mark = internal.startsWith('/') ? '#' : '#/';
+      return this._baseHref + mark + internal;
     }
-    const mark = internal.startsWith('/') ? '#' : '#/';
-    return this._baseHref + mark + internal;
+    return this._baseHref;
   }
 
   pushState(state: any, title: string, path: string, queryParams: string) {
