@@ -54,8 +54,7 @@ export class HashLocationStrategy extends LocationStrategy {
     if (_baseHref == null) {
       _baseHref = this._platformLocation.getBaseHrefFromDOM();
     }
-    _baseHref = _baseHref || this._platformLocation.pathname;
-    this._baseHref = _stripOnlyIndexHtml(_baseHref);
+    this._baseHref = _baseHref || this._platformLocation.pathname;
   }
 
   onPopState(fn: LocationChangeListener): void {
@@ -76,7 +75,7 @@ export class HashLocationStrategy extends LocationStrategy {
 
   prepareExternalUrl(internal: string): string {
     if (internal.length === 0) {
-      return this._baseHref + '#/';
+      return this._baseHref;
     }
     const mark = internal.startsWith('/') ? '#' : '#/';
     return this._baseHref + mark + internal;
@@ -102,8 +101,4 @@ export class HashLocationStrategy extends LocationStrategy {
   forward(): void { this._platformLocation.forward(); }
 
   back(): void { this._platformLocation.back(); }
-}
-
-function _stripOnlyIndexHtml(url: string): string {
-  return url.replace(/\/index.html$/, '/');
 }
